@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  height: 95vh;
+  height: 96.7vh;
   width: 100vw;
   display: flex;
 }
@@ -43,14 +43,8 @@
 .gameBox {
   width: inherit;
   height: inherit;
-  border: 10px solid rgb(0, 0, 0);
+  border: 10px solid rgb(138, 137, 137);
   background-color: rgb(0, 0, 0);
-}
-
-.border{
-  width: inherit;
-  height: inherit;
-  border: 1px solid white;
 }
 
 .rightPong{    
@@ -67,6 +61,7 @@
   background: white;
   position: absolute;
   left: 10px;
+  top: 0px;
 }
 
 .gameBox .vl {
@@ -92,7 +87,7 @@
   top: -10px;
   font-size: 15px;
   /* left: 37%; */
-  width: 100%;
+  width: 90%;
   justify-content: space-evenly;
   margin: auto;
 }
