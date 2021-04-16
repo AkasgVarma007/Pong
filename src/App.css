@@ -95,7 +95,8 @@
 .ball {
   background-color: rgb(143, 47, 172);
   position: absolute;
-  height: 7px;
-  width: 7px;
+  height: 30px;
+  width: 30px;
   z-index: 1000;
+  border-radius: 20px;
 }

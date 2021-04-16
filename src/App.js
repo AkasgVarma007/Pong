@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import ScoreBoard from './components/ScoreBoard'
 import { useState, useRef, useEffect, useCallback } from "react";
@@ -6,7 +5,9 @@ import $ from 'jquery';
 import useEventListener from './hooks/useEventListner';
 let gbLeft;
 let gbTop;
-
+let vbt = 1;
+let vbl = 1;
+let speed = 1;
 
 
 function App() {
@@ -34,16 +35,32 @@ function App() {
 		}
 	}
 	let ballMove = () => {
-		let upLeft = parseInt(ballCord.left.slice(0, -2)) + 1;
-		let upTop = parseInt(ballCord.top.slice(0, -2)) + 1;
+		//retrieve ball coordinates
+		//add bl and bh
+		//call setBallCord and set ball coordinates
+		//call func
+		//if ball touches top border then change vhy to 1
+		//if ball touches bottom border then change vhy to -1
+		console.log(gbTop,gbLeft)
+		let upLeft = parseInt(ballCord.left.slice(0, -2)) + vbl*speed;
+		let upTop = parseInt(ballCord.top.slice(0, -2)) + vbt*speed;
+		if(upTop > gbTop+10)
+			vbt=-1;
+		if(upTop < 10)
+			vbt=1;
+		if(upLeft < 20 && (upTop >= parseInt(leftPongCord.top.slice(0, -2)) && upTop <= parseInt(leftPongCord.top.slice(0, -2))+50))
+			vbl=1;
+		if(upLeft >  gbLeft-20 && (upTop >= parseInt(rightPongCord.top.slice(0, -2)) && upTop <= parseInt(rightPongCord.top.slice(0, -2))+50))
+			vbl=-1;
+		if(upLeft < 10)
+			vbl = 1;
+		if(upLeft > gbLeft+10)
+			vbl = -1;
 		setBallCord({
 			top: upTop + 'px',
 			left: upLeft + 'px'
-		})	
+		})
 	};
-	function sleep(ms) {
-		return new Promise(resolve => setTimeout(resolve, ms));
-	}
 	let pongMove = ({ key }) => {
 		ballMove();
 		if (String(key) === 's') {
@@ -90,7 +107,10 @@ function App() {
 			})		
 		}
 	}, [gameState])
-
+	useEffect(() => {
+		if(gameState == "start")
+			ballMove();
+	},[ballCord])
 	useEventListener('keydown', pongMove);
 
 	return (
