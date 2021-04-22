@@ -12,10 +12,11 @@ let speed = 1;
 
 function App() {
 	let [gameState, setGameState] = useState('initial');
-	let [ballCord, setBallCord] = useState({ top: null, left: null })
-	let [leftPongCord, setLeftPongCord] = useState({ top: '0px' })
-	let [rightPongCord, setRightPongCord] = useState({ top: "0px" })
-	const ballMoveHandler = useRef();
+	let [ballCord, setBallCord] = useState({ top: null, left: null });
+	let [leftPongCord, setLeftPongCord] = useState({ top: '0px' });
+	let [rightPongCord, setRightPongCord] = useState({ top: "0px" });
+	let [player1Score, setPlayer1Score] = useState(0);
+	let [player2Score, setPlayer2Score] = useState(0);
 	let game = () => {
 		if (gameState == 'initial') {
 			return (
@@ -25,7 +26,7 @@ function App() {
 		else if (gameState == 'start') {
 			return (
 				<div>
-					<ScoreBoard player1="Akash" player2="Aditya" />
+					<ScoreBoard player1="Akash" player2="Aditya" p1 = {player1Score} p2 = {player2Score}/>
 					<div className="rightPong" style={rightPongCord}></div>
 					<div className="vl"></div>
 					<div className="leftPong" style={leftPongCord}></div>
@@ -41,9 +42,10 @@ function App() {
 		//call func
 		//if ball touches top border then change vhy to 1
 		//if ball touches bottom border then change vhy to -1
-		console.log(gbTop,gbLeft)
-		let upLeft = parseInt(ballCord.left.slice(0, -2)) + vbl*speed;
-		let upTop = parseInt(ballCord.top.slice(0, -2)) + vbt*speed;
+		let p1 = player1Score;
+		let p2 = player2Score;
+		let upLeft = parseFloat(ballCord.left.slice(0, -2)) + vbl*speed;
+		let upTop = parseFloat(ballCord.top.slice(0, -2)) + vbt*speed;
 		if(upTop > gbTop+10)
 			vbt=-1;
 		if(upTop < 10)
@@ -52,17 +54,22 @@ function App() {
 			vbl=1;
 		if(upLeft >  gbLeft-20 && (upTop >= parseInt(rightPongCord.top.slice(0, -2)) && upTop <= parseInt(rightPongCord.top.slice(0, -2))+50))
 			vbl=-1;
-		if(upLeft < 10)
-			vbl = 1;
-		if(upLeft > gbLeft+10)
-			vbl = -1;
+		if(upLeft >= gbLeft)
+		{
+			setGameState('initial');
+			setPlayer1Score(p1+1);
+		}
+		if(upLeft <= 0)
+		{
+			setGameState('initial');
+			setPlayer2Score(p2+1);
+		}
 		setBallCord({
 			top: upTop + 'px',
 			left: upLeft + 'px'
 		})
 	};
 	let pongMove = ({ key }) => {
-		ballMove();
 		if (String(key) === 's') {
 			if (parseInt(leftPongCord.top.slice(0, -2)) < gbTop) {
 				let updatedCord = parseInt(leftPongCord.top.slice(0, -2)) + 10;
@@ -79,14 +86,12 @@ function App() {
 			if (parseInt(rightPongCord.top.slice(0, -2)) < gbTop) {
 				let updatedCord = parseInt(rightPongCord.top.slice(0, -2)) + 10;
 				setRightPongCord({ top: (updatedCord + 'px') });
-				console.log(String(key));
 			}
 		}
 		else if (String(key) === 'ArrowUp') {
 			if (parseInt(rightPongCord.top.slice(0, -2)) > 0) {
 				let updatedCord = parseInt(rightPongCord.top.slice(0, -2)) - 10;
 				setRightPongCord({ top: (updatedCord + 'px') });
-				console.log(String(key));
 			}
 		}
 	}
