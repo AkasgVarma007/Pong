@@ -100,3 +100,13 @@
   z-index: 1000;
   border-radius: 20px;
 }
+
+.playerLabel{
+  color: white;
+  font-size: xx-large;
+}
+
+.inputBox{
+  font-size: xx-large;
+  font: black;
+}
